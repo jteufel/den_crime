@@ -1,0 +1,28 @@
+var data = {
+"nieghboorhood_one":{
+  "Crime_One":["crime one","crime two","crime three","crime four","crime four"],
+  "Crime_Two":["crime one","crime two","crime three","crime four","crime four"],
+  "Crime_Three":["crime one","crime two","crime three","crime four","crime four"]
+},
+"nieghboorhood_two":{
+  "Crime_One":["crime one","crime two","crime three","crime four","crime four"],
+  "Crime_Two":["crime one","crime two","crime three","crime four","crime four"],
+  "Crime_Three":["crime one","crime two","crime three","crime four","crime four"]
+},
+"nieghboorhood_three":{
+  "Crime_One":["crime one","crime two","crime three","crime four","crime four"],
+  "Crime_Two":["crime one","crime two","crime three","crime four","crime four"],
+  "Crime_Three":["crime one","crime two","crime three","crime four","crime four"]
+},
+"nieghboorhood_four":{
+  "Crime_One":["crime one","crime two","crime three","crime four","crime four"],
+  "Crime_Two":["crime one","crime two","crime three","crime four","crime four"],
+  "Crime_Three":["crime one","crime two","crime three","crime four","crime four"]
+},
+"nieghboorhood_five":{
+  "Crime_One":["crime one","crime two","crime three","crime four","crime four"],
+  "Crime_Two":["crime one","crime two","crime three","crime four","crime four"],
+  "Crime_Three":["crime one","crime two","crime three","crime four","crime four"]
+}
+
+}

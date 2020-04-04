@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="/static/Front_End_Files/data.js"></script>
+<script src="/static/Front_End_Files/crime.js"></script>
+
+<script>
+
+assign(load());
+
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body, html {
+  height: 100%;
+  margin: 0;
+  font: 400 15px/1.8 "Arial";
+  color: #777;
+}
+
+.bgimg-1, .bgimg-2, .bgimg-3, .bghighlight-1, .bghighlight-2, .bghighlight-3, .bghighlight-4, .bghighlight-5 {
+  position: relative;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+
+.bgimg-svg {
+
+  background-image: url("../static/Front_End_Files/statistical_neighborhoods_filtered.svg");
+  height: 100%;
+  opacity: 0.9;
+}
+
+.bgimg-1 {
+
+  background-image: url("../static/Front_End_Files/cover.jpg");
+  height: 100%;
+  opacity: 0.9;
+}
+
+.bgimg-2 {
+  background-image: url("../static/Front_End_Files/Denver_Background.jpg");
+  height: 100%;
+  opacity: 0.9;
+}
+
+.bgimg-3 {
+  background-image: url("../static/Front_End_Files/Denver_Background.jpg");
+  height: 100%;
+  opacity: 0.9;
+}
+
+.bghighlight-1 {
+  background-image: url("../static/Front_End_Files/Neighboorhoods/Auroria.jpg");
+  height: 100%;
+  opacity: 0.9;
+}
+
+.bghighlight-2 {
+  background-image: url("../static/Front_End_Files/Neighboorhoods/Capitol_HIll.jpg");
+  height: 100%;
+  opacity: 0.9;
+}
+
+.bghighlight-3 {
+  background-image: url("../static/Front_End_Files/Neighboorhoods/CBD.jpg");
+  height: 100%;
+  opacity: 0.9;
+}
+
+.bghighlight-4 {
+  background-image: url("../static/Front_End_Files/Neighboorhoods/Civic_Center.jpg");
+  height: 100%;
+  opacity: 0.9;
+}
+
+.bghighlight-5 {
+  background-image: url("../static/Front_End_Files/Neighboorhoods/Lincoln_Park.jpg");
+  height: 100%;
+  opacity: 0.9;
+}
+
+.caption-1 {
+  position: absolute;
+  opacity: 1.0;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  font-family: "Arial";
+  color: #000;
+}
+
+.caption-1 span.border {
+  background-color: #111;
+  color: #fff;
+  padding: 18px;
+  font-size: 25px;
+  letter-spacing: 10px;
+}
+
+.caption-2 {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+  color: #000;
+}
+
+.caption-2 span.border {
+  color: #fff;
+  padding: 10px;
+  font-size: 18px;
+  letter-spacing: 8px;
+}
+
+.chart {
+  background-color: #eee;
+  bottom: 0;
+  opacity: 0;
+  width: 100%;
+  position: absolute;
+  text-align: center;
+  padding: 10px 10px;
+
+}
+
+.chartx {
+
+    background-color: #eee;
+    right:50;
+    bottom:0;
+    border: none;
+    width: 50px;
+    color: black;
+    font-weight: bold;
+    display: block;
+    padding: 12px;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: all 0.2s;
+}
+
+.maphead {
+
+  background-color: #eee;
+  top: 0;
+  opacity: .9;
+  width: 100%;
+  position: absolute;
+  text-align: center;
+  padding: 12px 12px;
+
+}
+
+.vertical-menu {
+
+  float: right;
+  position:relative
+
+}
+
+.vertical-menu button {
+
+
+    background-color: #eee;
+    border: none;
+    width: 150px;
+    color: black;
+    font-weight: bold;
+    display: block;
+    padding: 12px;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: all 0.2s;
+}
+
+.vertical-menu button:hover {
+
+  background-color: #e6ffff;
+
+}
+
+.vertical-menu2 {
+  position: relative;
+}
+
+.vertical-menu2 button {
+
+    background-color: #99d6ff;
+    border: none;
+    width: 150px;
+    color: black;
+    font-weight: bold;
+    display: block;
+    padding: 12px;
+    text-decoration: none;
+    opacity: 0.8;
+    transition: all 0.2s;
+}
+
+.vertical-menu2 button:hover {
+
+  background-color: #66c2ff;
+
+}
+
+.vertical-menu3 {
+
+  position:relative;
+
+}
+
+.vertical-menu3 button {
+
+    background-color: #00ffff;
+    border: none;
+    width: 150px;
+    color: black;
+    font-weight: bold;
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+    opacity: 0.9;
+    transition: all 0.2s;
+}
+
+.vertical-menu3 button:hover {
+
+  background-color: #dc143c;
+
+}
+
+.p1{
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  text-align: center;
+  font: 12px "Lato", sans-serif;
+  color: #111;
+  transition: all 0.5s;
+}
+
+.p2{
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  text-align: center;
+  font: 10px "Lato", sans-serif;
+  color: #111;
+  transition: all 0.5s;
+}
+
+
+
+</style>
+
+</head>
+<body>
+
+<div class="bgimg-1">
+
+  <div class="caption-1">
+    <span class="border">DENVER</span><br>
+    <span class="border">CRIME AVOIDENCE</span>
+  </div>
+</div>
+
+</body>
+
+<body>
+
+  <div style='position:relative; background-position:center; background-color:#eee; background-size:cover; height: 100%;'>
+
+    <div style='position: absolute; top: 40%; width: 100%;text-align: center;'>
+      <p class="p1">
+        <br> A Tool for safe living in Denver, Colorado </br>
+        <br> Project by Steven, Levi, and Justin. </br>
+        <br> Scroll Down </br>
+
+      </p>
+    </div>
+  </div>
+
+</body>
+
+<body>
+
+
+<div id=image class="bgimg-2">
+
+  <div class="maphead">
+
+      <p class="p1"> SELECT NEIGHHBOORHOOD AND CRIME FROM LIST BELOW</p>
+
+  </div>
+
+  <div class="vertical-menu">
+
+    <div style='position:relative; opacity:0'></div>
+
+    <button id='n_one' type="button" onclick="change_n_Selection('n_one'); set_n_input('auraria')";>Auraria</button>
+    <button id='n_two' type="button" onclick="change_n_Selection('n_two'); set_n_input('capitol_hill')";>Capitol Hill</button>
+    <button id='n_three' type="button" onclick="change_n_Selection('n_three'); set_n_input('cbd')";>CBD</button>
+    <button id='n_four' type="button" onclick="change_n_Selection('n_four'); set_n_input('civic_center')";>Civic Center</button>
+    <button id='n_five' type="button" onclick="change_n_Selection('n_five'); set_n_input('lincoln_park')";>Lincoln Park</button>
+
+  </div>
+
+  <div style='position:absolute;float:right;height:100%; width:100%'>
+
+  <object type="image/svg+xml" data="../static/Front_End_Files/statistical_neighborhoods_filtered2.svg"/>
+
+  </div>
+
+  <div class="vertical-menu2">
+
+
+    <button id='c_one' type="button" onclick="change_c_Selection('c_one'); set_c_input('aggravated-assault')";>Aggravated-Assault</button>
+    <button id='c_two' type="button" onclick="change_c_Selection('c_two'); set_c_input('drug-alcohol')";>Drug-Alcohol</button>
+    <button id='c_three' type="button" onclick="change_c_Selection('c_three'); set_c_input('robbery')";>Robbery</button>
+
+
+  </div>
+
+  <div class="vertical-menu3">
+
+    <div style='position:absolute; height:40px; opacity:0'></div>
+
+    <button id='data' type="button" onclick="return_data()";>GET DATA</button>
+
+
+  </div>
+
+
+  <div id='chart' class="chart">
+    <p id='display_text' class="p2"></p>
+    <button id='chart_x' class="chartx" onclick="close_chart()";> X </button>
+  </div>
+
+
+
+</div>
+
+</body>
+
+<footer>
+  <p class="p1" style="padding:10px">A project for CSCI 3308</p1>
+</footer>
+
+</html>
