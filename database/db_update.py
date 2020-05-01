@@ -1,72 +1,38 @@
-import pandas as pd
-import sqlalchemy
-import io
-import requests
+from db_build import *
 import json
+import schedule
+import time
 
-def DB_Connect():
-    #connect to mySQL DB and return connection object
+def DB_Update(file_url,columns,db_name,ht_file):
 
-        username = "jteufel"
-        passwd = "Teuferl1"
-        host = "35.247.106.154"
-        dbname = "dencrime_db"
+        #connect to sql database on google cloud and insert new values
+        conn = DB_Connect()
 
-        db_string = "mysql://{0}:{1}@{2}/{3}".format(username, passwd, host, dbname)
-        print("Connection string is", db_string)
+        #retrieve the last 500 entries from online csv
+        df = Get_New_Data(columns,500,file_url)
 
-        try:
-            engine = sqlalchemy.create_engine(db_string)
-            conn = engine.connect()
-            return conn
+        #convert date/times to proper format
+        df.FIRST_OCCURRENCE_DATE, df.LAST_OCCURRENCE_DATE = pd.to_datetime(df.FIRST_OCCURRENCE_DATE),pd.to_datetime(df.LAST_OCCURRENCE_DATE)
 
-        except Exception as exp:
+        #load in the current hash table
+        OFFENSE_ID_ht = json.load(ht_file)
 
-            print("Create engine failed:", exp)
-            return
+        #check each row to see if it already exists in the database (by checking the hash)
+        #this loop still needs to be tested
+        OFFENSE_IDs,idxs = list(df.OFFENSE_ID),list(df.index)
 
-def DB_Insert(df,conn,db_name):
+        for i,idx in zip(OFFENSE_IDs,idxs):
+            if i in OFFENSE_ID_ht:
+                break;
+            else:
+                #Insert row into database
+                DB_Insert(df.loc(idx),conn,db_name)
+                OFFENSE_ID_ht.update({i:idx})
 
-    columns = tuple(df.columns.values)
-    columns_str = str(columns).replace("'","")
-    cmd = ""
+        #create new hash table with new ID's
+        Create_JSON_ht(OFFENSE_ID_ht,ht_file)
 
-    for index,new_row in df.iterrows():
-
-        row_list = [new_row[col] for col in columns]
-        row_list = str(tuple(row_list)).replace("nan","NULL").replace("NaT","NULL")
-
-        cmd = cmd + "INSERT INTO %s %s VALUES %s; \n" % (db_name,columns_str,row_list)
-
-    result = conn.execute(cmd)
-
-def DB_Test(conn,cmd):
-
-    result = conn.execute(cmd).fetchall()
-    print(result)
-
-def DB_Close(conn):
-
-    conn.close()
-
-def Create_JSON_ht(dict,file_name):
-
-    offense_id_json = json.dumps(dict)
-    f = open(file_name,"w")
-    f.write(offense_id_json)
-    f.close()
-
-def Get_New_Data(columns,row_count,file_url):
-
-    #return dataframe with data csv url
-    #https://stackoverflow.com/questions/32400867/pandas-read-csv-from-url
-
-    r = requests.get(file_url).content #get content from http request
-    decoded_file = io.StringIO(r.decode('utf-8'))
-    df = pd.read_csv(decoded_file,nrows = row_count, usecols = columns) # add new csv lines(crimes) to dataframe
-
-    return df
-
+        DB_Close(conn)
 
 if __name__ == "__main__":
 
@@ -74,20 +40,11 @@ if __name__ == "__main__":
     columns = ["OFFENSE_ID","OFFENSE_TYPE_ID","OFFENSE_CATEGORY_ID","FIRST_OCCURRENCE_DATE","LAST_OCCURRENCE_DATE","NEIGHBORHOOD_ID","INCIDENT_ADDRESS"]
     db_name = "crimes"
     ht_file = "/Users/justinteufel/Desktop/dencrime_app/scripts/OFFENSE_ID_ht.json"
-    OFFENSE_ID_ht = {}
 
-    #get the first 10000 entries from the online csv
-    df = Get_New_Data(columns,10000,file_url)
+    #timer script taken from stack stackoverflow: https://stackoverflow.com/questions/15088037/python-script-to-do-something-at-the-same-time-every-day
 
-    #convert date/times to proper format
-    df.FIRST_OCCURRENCE_DATE, df.LAST_OCCURRENCE_DATE = pd.to_datetime(df.FIRST_OCCURRENCE_DATE),pd.to_datetime(df.LAST_OCCURRENCE_DATE)
+    #schedule.every().day.at("12:00").do(DB_Update,file_url,columns,db_name,ht_file)
 
-    #create hash table for offense ids
-    OFFENSE_IDs,idxs = list(df.OFFENSE_ID),list(df.index)
-    for i in range(0,len(OFFENSE_IDs)): OFFENSE_ID_ht.update({OFFENSE_IDs[i]:idxs[i]})
-    Create_JSON_ht(OFFENSE_ID_ht,ht_file)
-
-    #connect to sql database on google cloud and insert new values
-    conn = DB_Connect()
-    DB_Insert(df,conn,db_name)
-    DB_Close(conn)
+    #while True:
+        #schedule.run_pending()
+        #time.sleep(60) # wait one minute
